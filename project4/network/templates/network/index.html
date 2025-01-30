@@ -1,0 +1,109 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <h3 class="col-12 text-left pl-5">All Post</h3>
+            <hr>
+        </div>
+        <div class="row justify-content-center px-5 90vh">
+            {% for post in page_obj %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        
+                        <a href="{% url 'profile' post.author %}">
+                        
+                            <h5 class="card-title">User: {{post.author}}</h5>
+                        </a>
+                        <h6 class="card-subtitle mb-2 text-muted">{{post.timestamp}}</h6>
+                        <p class="card-text">{{post.content}}</p>
+                        <div class="d-flex justify-content-between align-items-center w-25">
+                            
+                            {% for like in post.likes.all %}
+                                {% if request.user == like.liker  %}
+                                    <button 
+                                    id="unlike_button" data-postid="{{post.id}}"  
+                                    class="btn btn-danger btn-sm">
+                                        ❤️ Unlike
+                                    </button>
+                                {% endif %}                           
+                            {% empty %}   
+                                <button id="like_button" data-postid="{{post.id}}"  
+                                class="btn btn-outline-danger btn-sm">
+                                    ❤️ Like
+                                </button>
+                            {% endfor %}
+                            <button 
+                            id="unlike_button" data-postid="{{post.id}}"  
+                            style="display: none;"
+                            class="btn btn-danger btn-sm">
+                                ❤️ Unlike
+                            </button>
+                            <small class="text-muted"><span id="like_count">{{post.likes.all.count}}</span> likes</small>
+                            
+                            {% if post.author == user %}
+                                <div>
+                                    <a class="btn btn-secondary" 
+                                    href="{% url 'edit' post.id %}">
+                                        Edit Post
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="row justify-content-center ">
+                    <h6 class="text-center text-muted">
+                        There aren't any posts yet.
+                        <br>
+                        Be the first person to post.
+                    </h6>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row p-5">
+                <nav aria-label="Page navigation col-12">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                            </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        
+                        {% for i in page_obj.paginator.page_range %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'network/like.js' %}"></script>
+{% endblock %}

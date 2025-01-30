@@ -1,0 +1,46 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="container mt-4">
+    <!-- User Information -->
+    <div class="row py-3">
+        <div class="col-md-12 text-center">
+            <h1>{{profile_user.username}}</h1>
+            <p>
+                Followers: <span class="fw-bold"><a href="{% url 'followers' profile_user.username %}"> {{num_followers}} </a></span> 
+                Following: <span class="fw-bold"><a href="{% url 'followings' profile_user.username %}"> {{num_followings}} </a></span>
+            </p>
+            {% if user.is_authenticated and user != profile_user %}
+                {% if is_following %}
+                    <a href="{% url 'unfollow' profile_user %}"
+                    class="btn btn-danger w-25">
+                        Unfollow</a>
+                {% else %}
+                    <a href="{% url 'follow' profile_user %}"
+                    class="btn btn-primary">
+                        Follow</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- User's Posts -->
+    <h3>User's Posts</h3>
+    <div class="row">
+        <!-- Post 1 -->
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Post Title</h5>
+                    <p class="card-text">This is a sample post content for this user.</p>
+                    <p class="text-muted">Posted on March 29, 2020, 11:40 p.m.</p>
+                    <button class="btn btn-outline-danger btn-sm">❤️ Like</button>
+                    <span class="text-muted ms-2">1 like</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
