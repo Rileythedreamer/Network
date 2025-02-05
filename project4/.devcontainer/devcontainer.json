@@ -1,0 +1,8 @@
+{
+    "name": "Django and PostgreSQL",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "postCreateCommand": "pip install -r requirements.txt"
+}
+  
