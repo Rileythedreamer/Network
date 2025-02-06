@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: rye
-      POSTGRES_PASSWORD: ydreamer
+      POSTGRES_PASSWORD: dreamer
       POSTGRES_DB: networkdb
     ports:
       - "5432:5432"
