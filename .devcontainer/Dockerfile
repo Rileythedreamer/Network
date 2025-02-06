@@ -1,6 +1,7 @@
-FROM mcr.microsoft.com/vscode/devcontainers/python:0-3
+FROM mcr.microsoft.com/devcontainers/python:3.9
 
-ENV PYTHONUNBUFFERED 1
+# Install the PostgreSQL client
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends postgresql-client
+# Set the working directory
+WORKDIR /workspace
