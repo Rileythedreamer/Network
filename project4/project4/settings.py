@@ -95,7 +95,7 @@ DATABASES = {
         'NAME': 'networkdb',
         'USER': 'rye',
         'PASSWORD': 'dreamer',
-        'HOST': 'db',
+        'HOST': 'networkdb',
         'PORT': '5432',
     }
 }
