@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '13kl@xtukpwe&xj2xoysxe9_6=tf@f8ewxer5n&ifnd46+6$%8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -83,11 +83,23 @@ WSGI_APPLICATION = 'project4.wsgi.application'
 # }
 
 
+# DATABASES = {
+#     'default': dj_database_url.parse(
+#         os.environ.get('DATABASE_URL', 'postgres://postgres:password@db:5432/postgres')
+#     )
+# }
+
 DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL', 'postgres://postgres:password@db:5432/postgres')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'networkdb',
+        'USER': 'rye',
+        'PASSWORD': 'dreamer',
+        'HOST': 'db',
+        'PORT': '5432',
+    }
 }
+
 
 
 
