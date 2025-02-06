@@ -89,17 +89,17 @@ WSGI_APPLICATION = 'project4.wsgi.application'
 #     )
 # }
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'networkdb',
-        'USER': 'rye',
-        'PASSWORD': 'dreamer',
-        'HOST': 'networkdb',
+        'NAME': 'app',
+        'USER': 'app_user',
+        'PASSWORD': 'app_password',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
-
 
 
 
