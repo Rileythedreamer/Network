@@ -1,28 +1,26 @@
-{
-  "name": "Python 3 & PostgreSQL",
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "app",
-  "workspaceFolder": "/workspace",
-  "postCreateCommand": "pip install -r requirements.txt && python manage.py migrate",
+version: "3.8"
 
-  "extensions": [
-    "ms-python.python",
-    "mtxr.sqltools",
-    "mtxr.sqltools-driver-pg"
-  ],
-  "settings": {
-    "sqltools.connections": [
-      {
-        "name": "Container database",
-        "driver": "PostgreSQL",
-        "previewLimit": 50,
-        "server": "db",
-        "port": 5432,
-        "database": "app",
-        "username": "app_user",
-        "password": "app_password"
-      }
-    ],
-    "python.pythonPath": "/usr/local/bin/python"
-  }
-}
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/your_db_name
+    command: sleep infinity
+    network_mode: service:db
+
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: your_db_name
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  postgres-data:
