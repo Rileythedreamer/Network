@@ -11,7 +11,7 @@ from .forms import PostForm
 from .models import User, Post, Follow, Like
 
 
-N = 1  
+N = 10  
 #number of posts on each page
 
 #function for paginating posts:
