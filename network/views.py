@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -8,10 +9,18 @@ from django.urls import reverse
 from .models import User, Post, Follow
 from .forms import PostForm
 
+N = 10 # Number of Posts per Page
+
+
+def paginate_posts(posts, page_number):
+    paginator = Paginator(posts, N)
+    return paginator.get_page(page_number)
+
+
 def index(request):
     all_posts = Post.objects.all().order_by("-date_added")
     return render(request, "network/index.html", {
-        "posts" : all_posts
+        "page_obj" : paginate_posts(all_posts, request.GET.get('page'))
     })
 
 
@@ -92,7 +101,7 @@ def profile_view(request, profile_id):
         "followers" : followers,
         "followings" : followings,
         "is_in_followings": Follow.objects.filter(follower=request.user, followed=profile_user),
-        "posts": profile_user_posts
+        "page_obj": paginate_posts(profile_user_posts , request.GET.get('page'))
     })
     
 @login_required
@@ -113,6 +122,7 @@ def follow_view(request, profile_id):
 def following_view(request):
     following_users = Follow.objects.filter(follower=request.user).values_list("followed")
     posts = Post.objects.filter(author__in=following_users)
+    
     return render(request, "network/index.html", {
-        "posts": posts
+        "page_obj": paginate_posts(posts, request.GET.get("page"))
     })
