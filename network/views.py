@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -5,6 +6,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.http import JsonResponse
 
 from .models import User, Post, Follow
 from .forms import PostForm
@@ -126,3 +128,13 @@ def following_view(request):
     return render(request, "network/index.html", {
         "page_obj": paginate_posts(posts, request.GET.get("page"))
     })
+
+
+@login_required
+def edit_post_view(request, post_id):
+    if request.method == "GET":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    else:
+        data = json.loads(request.body)
+        print(data)
+        return JsonResponse({"success": "."}, status=200)

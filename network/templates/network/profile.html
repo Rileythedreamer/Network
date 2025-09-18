@@ -46,6 +46,9 @@
                         </td>
                         <td> {{post.date_added}} </td>
                         <td> {{post.likes}} &#128151; </td>
+                        {% if post.author == request.user %}
+                            <td><a href="{% url 'edit' post.id %}"> Edit </a></td>
+                        {% endif %}
                     </tr>
                   {% endfor %}
                 </tbody>

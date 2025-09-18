@@ -13,7 +13,21 @@
     <tbody>
       {% for post in page_obj %}
         <tr>
-            <td> {{post.content}} </td>
+            <td class="content"> {{post.content}} 
+              {% if post.author == request.user %}
+              <span class="show_textarea" class="text-blue mx-3">Edit</span>
+              {% endif %}
+            </td>
+            <td class="edit_area_td">
+              <textarea id="edit_area" data-id="{{post.id}}" name="content" rows="1" class="form-control" >
+                {{post.content}} 
+              </textarea>
+              
+              <button class="edit_btn" class="btn btn-primary">
+                Edit
+              </button>
+               
+            </td>
             <td>
               <a href="{% url 'profile' post.author.id %}">
                   @{{post.author.username}} 
@@ -21,6 +35,7 @@
             </td>
             <td> {{post.date_added}} </td>
             <td> {{post.likes}} &#128151; </td>
+            
         </tr>
       {% endfor %}
     </tbody>
