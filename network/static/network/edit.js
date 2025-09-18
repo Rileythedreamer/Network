@@ -1,33 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const prev_content = document.querySelectorAll('.content');
-    const edit_area_td = document.querySelectorAll('.edit_area_td');
-    const edit_area = document.querySelectorAll('.edit_area');
-    const show_textarea = document.querySelectorAll('.edit_btn');
-    const edit_btn = document.querySelectorAll('.edit_btn');
-    // const post_id = document.querySelector('#post_id');
+    const contents = document.querySelectorAll('.content');
     
+    contents.forEach(content => {
+        content.closest('.edit-area-td').style.display = 'none';
+        content.closest('.prev-content').style.display = 'block';
+    });
+    show_textarea_links = document.querySelectorAll('.show_textarea');
 
-    prev_content.style.display = 'block';
-    edit_area_td.style.display = 'none';
+    show_textarea_links.forEach(edit_link => {
+        edit_link.addEventListener('click', () => {
+            const this_post_row = this.parentNode.parentNode;
+            const content_td = this.parentNode;
+            const edit_area_td = this_post_row.closest('.edit_area_td');
 
-    show_textarea.addEventListener('click', () => {
-        prev_content.style.display = 'none';
-        edit_area_td.style.display = 'block';
+            // Display edit area
+            content_td.style.display = 'none';
+            edit_area_td.style.display = 'block';
 
 
-        edit_btn.addEventListener('click', () => {
-            const post_id = edit_area.dataset.id;
-            fetch(`/edit/${post_id}`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    content: edit_area.innerHTML
-                })
-            }).then(response => response.json())
-            .then(response => {
-                console.log(response)
-            })
         });
     });
+
+    
+    
 
 
 });
