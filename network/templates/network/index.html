@@ -13,21 +13,30 @@
     <tbody>
       {% for post in page_obj %}
         <tr>
-            <td class="content"> 
-              <div class="prev-content"> {{post.content}} 
-                {% if post.author == request.user %}
-                <button class="show_textarea" class="btn btn-outline-primary mx-3">Edit Post</button>
-                {% endif %}
-             </div>
+            <td class="table-data-content"> 
+              <div class="content-area">
+                <div class="d-flex justify-content-between">
+                  <div class="content">
+                    {{post.content}} 
+                  </div>
+                  
+                  <div>
+                    {% if post.author == request.user %}
+                    <button class="show_textarea btn btn-primary mx-3">Edit Post</button>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
 
               <div class="edit-area">
-                <textarea id="edit_area"  data-content="{{post.content}}" name="content" rows="1" class="form-control" >
-                  {{post.content}} 
-                </textarea>
-                
-                <button class="edit_btn" data-id="{{post.id}}" class="btn btn-primary">
-                  Save Edits
-                </button>
+                <div class=" d-flex justify-content-between">
+                  <textarea class="new-content form-control w-50"  data-content="{{post.content}}" name="content" rows="1" >{{post.content}} 
+                  </textarea>
+                  
+                  <button class="save_edits btn btn-primary" data-id="{{post.id}}" >
+                    Save Edits
+                  </button>
+                </div>
               </div>
               
             </td>
@@ -38,7 +47,11 @@
               </a>
             </td>
             <td> {{post.date_added}} </td>
-            <td> {{post.likes}} &#128151; </td>
+            <td class="d-flex flex-row"> 
+              <div class="no_of_likes">{{post.likes}} </div>
+              <button class="like_btn like ml-2" data-id="{{post.id}}" data-like="true">&#128077;</button> 
+              <button class="like_btn unlike" data-id="{{post.id}}" data-like="false">&#128078;</button> 
+            </td>
             
         </tr>
       {% endfor %}

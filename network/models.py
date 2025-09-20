@@ -12,6 +12,10 @@ class Post(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     
+    def calculate_likes(self):
+        self.likes = Like.objects.filter(liked=self).count()
+        return self.likes
+    
 
 class Follow(models.Model):
     follower = models.ForeignKey(User, related_name = "following" , on_delete=models.CASCADE)
@@ -19,3 +23,10 @@ class Follow(models.Model):
 
     class Meta:
         unique_together = ("follower", "followed")
+        
+class Like(models.Model):
+    liker = models.ForeignKey(User, on_delete=models.CASCADE)
+    liked = models.ForeignKey(Post, on_delete=models.CASCADE)
+    
+    class Meta:
+        unique_together = ('liker', 'liked')

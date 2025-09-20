@@ -1,7 +1,11 @@
 .nav-item {
-  margin: 0 20px;
-}
+  margin: 0 20px; }
 
 .body {
-  margin: 20px 40px;
-}/*# sourceMappingURL=styles.css.map */
+  margin: 20px 40px; }
+
+button.like_btn, button.unlike_btn {
+  background-color: transparent;
+  border: none; }
+
+/*# sourceMappingURL=styles.css.map */

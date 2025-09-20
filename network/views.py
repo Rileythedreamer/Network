@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import JsonResponse
 
-from .models import User, Post, Follow
+from .models import User, Post, Follow, Like
 from .forms import PostForm
 
 N = 10 # Number of Posts per Page
@@ -133,13 +133,36 @@ def following_view(request):
 @login_required
 def edit_post_view(request, post_id):
     if request.method == "GET":
-        new_content = Post.objects.get(pk=post_id).content
-        print(new_content)
-        return JsonResponse({"success": "."}, status=200)
+        this_post = Post.objects.get(pk=post_id)
+        # print("what is going on")
+        print(this_post.content)
+        return JsonResponse({"content": this_post.content})
     else:
         data = json.loads(request.body)
-        print(data.get("content", ""))
-        post_obj = Post.objects.get(pk=post_id)
-        post_obj.content = ""
-        post_obj.save()
+        if data.get("content") is not None:
+            # print(data["content"])
+            post_obj = Post.objects.get(pk=post_id)
+            post_obj.content = data["content"]
+            post_obj.save()
         return JsonResponse({"success": "."}, status=200)
+
+
+@login_required
+def like_view(request, post_id):
+    if request.method == "PUT":
+        post_obj = Post.objects.get(pk=post_id)
+        data = json.loads(request.body)
+        if data.get("liked") is not None:
+            print(data["liked"])
+            if data["liked"] == True:
+                new_like = Like.objects.create(liker=request.user, liked=post_obj)
+                new_like.save()
+                
+            elif data["liked"] == False:
+                removing_like = Like.objects.filter(liker=request.user, liked=post_obj)
+                removing_like.delete()
+                
+        likes = post_obj.calculate_likes()
+        post_obj.save()
+        return JsonResponse({"likes": likes}, status=200)
+    
