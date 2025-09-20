@@ -133,8 +133,13 @@ def following_view(request):
 @login_required
 def edit_post_view(request, post_id):
     if request.method == "GET":
-        return JsonResponse({"error": "POST request required."}, status=400)
+        new_content = Post.objects.get(pk=post_id).content
+        print(new_content)
+        return JsonResponse({"success": "."}, status=200)
     else:
         data = json.loads(request.body)
-        print(data)
+        print(data.get("content", ""))
+        post_obj = Post.objects.get(pk=post_id)
+        post_obj.content = ""
+        post_obj.save()
         return JsonResponse({"success": "."}, status=200)

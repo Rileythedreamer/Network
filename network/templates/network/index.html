@@ -16,17 +16,17 @@
             <td class="content"> 
               <div class="prev-content"> {{post.content}} 
                 {% if post.author == request.user %}
-              <span class="show_textarea" class="text-blue mx-3">Edit</span>
-              {% endif %}
+                <button class="show_textarea" class="btn btn-outline-primary mx-3">Edit Post</button>
+                {% endif %}
              </div>
 
-              <div class="edit-area-td">
-                <textarea id="edit_area" data-id="{{post.id}}" data-content="{{post.content}}" name="content" rows="1" class="form-control" >
+              <div class="edit-area">
+                <textarea id="edit_area"  data-content="{{post.content}}" name="content" rows="1" class="form-control" >
                   {{post.content}} 
                 </textarea>
                 
-                <button class="edit_btn" class="btn btn-primary">
-                  Edit
+                <button class="edit_btn" data-id="{{post.id}}" class="btn btn-primary">
+                  Save Edits
                 </button>
               </div>
               

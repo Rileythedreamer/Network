@@ -49,6 +49,11 @@
             {% endblock %}
         </div>
 
+        {% csrf_token %}
+        <script>
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        </script>
+
         <script src="{% static 'network/edit.js' %}"></script>
         <script src="{% static 'network/like.js' %}"></script>
     </body>
